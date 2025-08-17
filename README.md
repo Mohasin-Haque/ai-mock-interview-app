@@ -2,11 +2,9 @@
 
 Brain Sharp is your ai powered mock interviewer with interactive 3d avatars which mimic like real human recruiters to enhance your job prepration and make you interview ready.
 
-![Landing Page](<img width="1896" height="878" alt="image" src="https://github.com/user-attachments/assets/ad474dd9-dba7-453a-9e91-66bd5b37d76f" />
-)
+![Landing Page](https://github.com/user-attachments/assets/ad474dd9-dba7-453a-9e91-66bd5b37d76f)
 
-![image](<img width="1919" height="874" alt="image" src="https://github.com/user-attachments/assets/7cea0232-68d7-4d62-b23e-f596e89c5aa4" />
-)
+![image](https://github.com/user-attachments/assets/7cea0232-68d7-4d62-b23e-f596e89c5aa4)
 
 <!-- 
 # Category and featured sections

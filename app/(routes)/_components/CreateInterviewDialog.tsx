@@ -19,6 +19,8 @@ import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { useUserDetailCOntext } from '@/app/Provider'
 import { UserDetailContext } from '@/context/UserDetailContext'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const CreateInterviewDialog = () => {
 
@@ -27,6 +29,7 @@ const CreateInterviewDialog = () => {
     const [loading, setLoading] = useState(false);
     const { userDetail, setUserDetail } = useContext(UserDetailContext);
     const saveInterviewQuestion = useMutation(api.Interview.SaveInterviewQuestion)
+    const router = useRouter()
     const onHandleInputChange = (field: string, value: string) => {
         setFormData((prev: any) => ({
             ...prev,
@@ -44,11 +47,13 @@ const CreateInterviewDialog = () => {
             const res = await axios.post('/api/generate-interview-questions', formData_)
             console.log(res.data)
 
-            if(res?.data?.status == 429){
+            if (res?.data?.status == 429) {
+                toast.warning(res?.data?.result)
                 return;
             }
+            //savind in database
             // @ts-ignore
-            const resp = await saveInterviewQuestion({
+            const interviewId = await saveInterviewQuestion({
                 questions: res?.data?.questions,
                 resumeUrl: res?.data?.resumeUrl ?? '',
                 uid: userDetail?._id,
@@ -56,7 +61,7 @@ const CreateInterviewDialog = () => {
                 jobDescription: formData?.jobDescription ?? ''
             })
 
-            console.log(resp)
+            router.push('/interview/' + interviewId)
         } catch (e) {
             console.log(e)
         } finally {

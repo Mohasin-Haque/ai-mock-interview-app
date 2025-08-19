@@ -35,18 +35,21 @@ const CreateInterviewDialog = () => {
     }
 
     const onSubmit = async () => {
-        if (!file) return;
         setLoading(true)
-        const formData = new FormData();
-        formData.append('file', file);
+        const formData_ = new FormData();
+        formData_.append('file', file ?? '');
+        formData_.append('jobTitle', formData?.jobTitle)
+        formData_.append('jobDescription', formData?.jobDescription);
         try {
-            const res = await axios.post('/api/generate-interview-questions', formData)
+            const res = await axios.post('/api/generate-interview-questions', formData_)
             console.log(res.data)
             // @ts-ignore
             const resp = await saveInterviewQuestion({
                 questions: res?.data?.questions,
-                resumeUrl: res?.data?.resumeUrl,
-                uid: userDetail?._id
+                resumeUrl: res?.data?.resumeUrl ?? '',
+                uid: userDetail?._id,
+                jobTitle: formData?.jobTitle ?? '',
+                jobDescription: formData?.jobDescription ?? ''
             })
 
             console.log(resp)
@@ -80,7 +83,8 @@ const CreateInterviewDialog = () => {
                     <DialogClose>
                         <Button variant={'ghost'}>Cancel</Button>
                     </DialogClose>
-                    <Button onClick={onSubmit} disabled={loading || !file}>
+                    <Button onClick={onSubmit} disabled={loading}>
+                        {/* disabled={loading || !file || !formData?.jobTitle?.trim() || !formData?.jobDescription?.trim()} */}
                         {loading && <Loader2Icon className='animate-spin' />}Submit</Button>
                 </DialogFooter>
             </DialogContent>

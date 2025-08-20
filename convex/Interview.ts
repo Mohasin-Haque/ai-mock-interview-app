@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const SaveInterviewQuestion = mutation({
     args: {
@@ -19,5 +19,18 @@ export const SaveInterviewQuestion = mutation({
             jobDescription: args.jobDescription
         })
         return result;
+    }
+})
+
+export const GetInterviewQuestions = query({
+    args: {
+        interviewRecordId: v.id('InterviewSessionTable'),
+    },
+    handler: async (ctx, args) => {
+        const result = await ctx.db.query('InterviewSessionTable')
+            .filter(q => q.eq(q.field('_id'), args.interviewRecordId))
+            .collect()
+
+        return result
     }
 })
